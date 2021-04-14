@@ -1,3 +1,6 @@
+using CadEscola._2_Domain.Interfaces;
+using CadEscola._2_Domain.Models;
+using CadEscola._4_Infra._4._1_Data.Repository;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -6,6 +9,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -26,6 +30,12 @@ namespace CadEscola
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllers();
+
+            services.Configure<EscolasDatabaseSettings>(Configuration.GetSection(nameof(EscolasDatabaseSettings)));
+
+            services.AddSingleton<IDatabaseSettings>(sp => sp.GetRequiredService<IOptions<EscolasDatabaseSettings>>().Value);
+
+            services.AddSingleton<EscolaRepository>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
