@@ -5,11 +5,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="1-Application\Controllers\" />
-    <Folder Include="1-Application\" />
     <Folder Include="3-Service\" />
-    <Folder Include="4-Infra\4.1-Data\Context\" />
-    <Folder Include="4-Infra\4.1-Data\Mapping\" />
   </ItemGroup>
 
   <ItemGroup>

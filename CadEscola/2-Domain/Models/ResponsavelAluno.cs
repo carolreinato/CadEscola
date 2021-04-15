@@ -9,9 +9,6 @@ namespace CadEscola._2_Domain.Models
 {
     public class ResponsavelAluno
     {
-        [BsonId]
-        [BsonRepresentation(BsonType.ObjectId)]
-        public string Id { get; set; }
         public string NomeResponsavel { get; set; }
         public string CPFResponsavel { get; set; }
         public string ContatoResponsavel { get; set; }

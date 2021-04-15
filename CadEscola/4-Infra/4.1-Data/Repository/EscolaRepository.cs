@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace CadEscola._4_Infra._4._1_Data.Repository
 {
-    public class EscolaRepository
+    public class EscolaRepository : IEscolaRepository
     {
         private readonly IMongoCollection<Escola> _escolas;
 
@@ -20,20 +20,27 @@ namespace CadEscola._4_Infra._4._1_Data.Repository
             _escolas = database.GetCollection<Escola>(settings.EscolasCollectionName);
         }
 
-        public List<Escola> Get() => _escolas.Find(escola => true).ToList();
+        public async Task<List<Escola>> Get() => await _escolas.FindSync(escola => true).ToListAsync();
 
-        public Escola Get(string id) => _escolas.Find<Escola>(escola => escola.Id == id).FirstOrDefault();
+        public async Task<Escola> Get(string id) => await _escolas.FindSync<Escola>(escola => escola.Id == id).FirstOrDefaultAsync();
 
-        public Escola Create(Escola escola)
+        public async Task<Escola> Create(Escola escola)
         {
-            _escolas.InsertOne(escola);
+            try
+            {
+                await _escolas.InsertOneAsync(escola);
+            }
+            catch(Exception ex)
+            {
+                
+            }
             return escola;
         }
 
-        public void Update(string id, Escola escolaIn) => _escolas.ReplaceOne(aluno => aluno.Id == id, escolaIn);
+        public async void Update(string id, Escola escolaIn) => await _escolas.ReplaceOneAsync(escola => escola.Id == id, escolaIn);
 
-        public void Remove(Escola escolaIn) => _escolas.DeleteOne(escola => escola.Id == escolaIn.Id);
+        public async void Remove(Escola escolaIn) => await _escolas.DeleteOneAsync(escola => escola.Id == escolaIn.Id);
 
-        public void Remove(string id) => _escolas.DeleteOne(escola => escola.Id == id);
+        public async void Remove(string id) => await _escolas.DeleteOneAsync(escola => escola.Id == id);
     }
 }

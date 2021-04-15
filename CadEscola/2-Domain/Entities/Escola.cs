@@ -16,5 +16,6 @@ namespace CadEscola._2_Domain.Entities
         public string NomeEscola { get; set; }
         public string Bairro { get; set; }
         public List<Turma> Turmas { get; set; }
+        public bool IsAtivo { get; set; }
     }
 }

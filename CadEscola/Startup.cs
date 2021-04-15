@@ -31,11 +31,15 @@ namespace CadEscola
         {
             services.AddControllers();
 
+            services.AddSwaggerGen();
+
             services.Configure<EscolasDatabaseSettings>(Configuration.GetSection(nameof(EscolasDatabaseSettings)));
 
             services.AddSingleton<IDatabaseSettings>(sp => sp.GetRequiredService<IOptions<EscolasDatabaseSettings>>().Value);
 
             services.AddSingleton<EscolaRepository>();
+
+            services.AddScoped<IEscolaRepository, EscolaRepository>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -45,6 +49,13 @@ namespace CadEscola
             {
                 app.UseDeveloperExceptionPage();
             }
+
+            app.UseSwagger();
+
+            app.UseSwaggerUI(c =>
+            {
+                c.SwaggerEndpoint("/swagger/v1/swagger.json", "Cadastro de Escolas");
+            });
 
             app.UseHttpsRedirection();
 
